@@ -7,24 +7,27 @@ prompt:
 .global display_prompt
 
 display_prompt:
-    push {r7, lr}
+    push {r4-r11, lr}
     sub sp, #8000
     mov r0, #1
     ldr r1, =prompt
+    mov r2, #0
 
 _size_of_string:
-    mov r2, #0
     ldrb r3, [r1, r2]
     cmp r3, #0
-    beq _print_prompt
+    beq _output_prompt
+    add r2, #1
+    b _size_of_string
 
-    mov r2, #8
+
+_output_prompt:
     mov r7, #0x04
     svc #0
 
     bl read_input
     add sp, #8000
-    pop {r7, pc}
+    pop {r4-r11, pc}
 
 
     

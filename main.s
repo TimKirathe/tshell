@@ -4,6 +4,7 @@
 
 _start:
     bl display_prompt
+    b _start
     mov r0, #0
     mov r7, #0x01
     svc #0
